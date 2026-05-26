@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Case Clicker</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <div id="toast"></div>
+
+    <div class="wrapper">
+      <header>
+        <h1>🎰 Case<span>Clicker</span></h1>
+        <div id="balance">$500</div>
+      </header>
+
+      <div class="grid">
+        <div class="col-main">
+
+          <div class="card center-col">
+            <h2>Open a Case</h2>
+            <div id="case-box" onclick="openCase()">📦</div>
+            <button id="open-btn" onclick="openCase()">Open Case — $50</button>
+            <div id="last-drop" class="hidden"></div>
+          </div>
+
+          <div class="card">
+            <div class="inv-header">
+              <h2>Inventory <span id="inv-count" class="muted">(0)</span></h2>
+              <button id="sell-all-btn" class="btn-red hidden" onclick="sellAll()">Sell All</button>
+            </div>
+            <div id="inventory-empty" class="empty-msg">No items yet. Open a case!</div>
+            <div id="inventory-grid"></div>
+          </div>
+
+        </div>
+
+        <div class="col-side">
+
+          <div class="card">
+            <h2>Upgrades</h2>
+            <div class="upgrade-box">
+              <div class="upgrade-title" id="upgrade-title">Case Factory Lv.0</div>
+              <div class="upgrade-desc" id="upgrade-desc">Buy to earn passive income every second.</div>
+              <div class="upgrade-cost">Cost: <strong id="upgrade-cost-val">$500</strong></div>
+              <button id="upgrade-btn" onclick="buyUpgrade()">Buy Upgrade</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Drop Rates</h2>
+            <div id="drop-rates"></div>
+          </div>
+
+          <div class="card">
+            <h2>Stats</h2>
+            <div class="stat-row"><span>Cases opened</span><span id="stat-cases" class="stat-val">0</span></div>
+            <div class="stat-row"><span>Passive income</span><span id="stat-passive" class="stat-green">$0/sec</span></div>
+            <div class="stat-row"><span>Inventory value</span><span id="stat-inv-val" class="stat-yellow">$0</span></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="game.js"></script>
+  </body>
+</html>
