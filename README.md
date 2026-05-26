@@ -3,4 +3,6 @@ A remake of the O.G 'CSGO Clicker'
 
 ## Contributors
 
-See all contributors here: https://github.com/Godslayer82/caseclicker/graphs/contributors
+<a href="https://github.com/Godslayer82/caseclicker/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Godslayer82/caseclicker" />
+</a>
