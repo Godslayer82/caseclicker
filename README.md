@@ -30,7 +30,7 @@ Case Clicker is a remake of the classic *CSGO Clicker*, built to recreate the or
 
 ---
 
-## 🚀 Features (optional section you can expand later)
+## 🚀 Features
 
 - Click-based progression system  
 - Case opening mechanics  
