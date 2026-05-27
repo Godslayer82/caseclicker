@@ -1,16 +1,17 @@
+<!-- CameronCodes -->
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Case Clicker</title>
+  <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/283798280?s=48&v=4">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <div id="toast"></div>
 
-<!-- Auth Modal -->
 <div id="auth-overlay" class="overlay">
   <div class="modal">
     <h2 id="auth-title">Sign In</h2>
@@ -24,10 +25,8 @@
   </div>
 </div>
 
-<!-- App Shell -->
 <div id="app">
 
-  <!-- Sidebar -->
   <nav id="sidebar">
     <div class="sidebar-logo">🎰 <span>CaseClicker</span></div>
 
@@ -58,22 +57,17 @@
     </div>
   </nav>
 
-  <!-- Main content -->
   <div id="main">
 
-    <!-- Top bar -->
     <div id="topbar">
       <div id="topbar-title">Shop</div>
       <div id="balance-display">$500</div>
     </div>
 
-    <!-- Pages -->
 
-    <!-- SHOP PAGE -->
     <div class="page active" id="page-shop">
       <div class="crate-grid" id="crate-grid"></div>
 
-      <!-- Case opening panel (shown when a crate is selected) -->
       <div id="open-panel" class="open-panel hidden">
         <button class="back-btn" onclick="deselectCrate()">← Back to Shop</button>
         <div class="open-center">
@@ -94,7 +88,6 @@
       </div>
     </div>
 
-    <!-- INVENTORY PAGE -->
     <div class="page" id="page-inventory">
       <div class="page-header">
         <h2>Inventory <span class="muted" id="inv-count">(0)</span></h2>
@@ -104,12 +97,10 @@
       <div id="inventory-grid"></div>
     </div>
 
-    <!-- UPGRADES PAGE -->
     <div class="page" id="page-upgrades">
       <div class="upgrades-grid" id="upgrades-grid"></div>
     </div>
 
-    <!-- LEADERBOARD PAGE -->
     <div class="page" id="page-leaderboard">
       <div class="page-header"><h2>🏆 Leaderboard</h2></div>
       <div id="leaderboard-list">
@@ -123,7 +114,6 @@
 
 <script src="game.js"></script>
 
-<!-- Firebase (module) — loaded after game.js sets up globals -->
 <script type="module">
   import { initializeApp }         from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
   import { getAnalytics }          from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
@@ -246,3 +236,4 @@
 
 </body>
 </html>
+<!-- CameronCodes -->
