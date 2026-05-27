@@ -1,71 +1,248 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Case Clicker</title>
-    <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/283798280?s=48&v=4">
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Clicker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-    <div id="toast"></div>
+<div id="toast"></div>
 
-    <div class="wrapper">
-      <header>
-        <h1>🎰 Case<span>Clicker</span></h1>
-        <div id="balance">$500</div>
-      </header>
+<!-- Auth Modal -->
+<div id="auth-overlay" class="overlay">
+  <div class="modal">
+    <h2 id="auth-title">Sign In</h2>
+    <p class="modal-sub" id="auth-sub">Save your progress to the cloud</p>
+    <input type="email" id="auth-email" placeholder="Email" autocomplete="email" />
+    <input type="password" id="auth-pass" placeholder="Password" autocomplete="current-password" />
+    <div id="auth-error" class="auth-error hidden"></div>
+    <button class="btn-primary" id="auth-submit-btn" onclick="authSubmit()">Sign In</button>
+    <button class="btn-ghost" id="auth-toggle-btn" onclick="toggleAuthMode()">No account? Register</button>
+    <button class="btn-ghost" onclick="closeAuth()">Continue as Guest</button>
+  </div>
+</div>
 
-      <div class="grid">
-        <div class="col-main">
+<!-- App Shell -->
+<div id="app">
 
-          <div class="card center-col">
-            <h2>Open a Case</h2>
-            <div id="case-box" onclick="openCase()">📦</div>
-            <button id="open-btn" onclick="openCase()">Open Case — $50</button>
-            <div id="last-drop" class="hidden"></div>
+  <!-- Sidebar -->
+  <nav id="sidebar">
+    <div class="sidebar-logo">🎰 <span>CaseClicker</span></div>
+
+    <div class="nav-section-label">PLAY</div>
+    <button class="nav-btn active" data-page="shop"      onclick="navigate('shop')">
+      <span class="nav-icon">🏪</span> Shop
+    </button>
+    <button class="nav-btn" data-page="inventory" onclick="navigate('inventory')">
+      <span class="nav-icon">🎒</span> Inventory
+      <span class="nav-badge" id="inv-badge" style="display:none"></span>
+    </button>
+    <button class="nav-btn" data-page="upgrades"  onclick="navigate('upgrades')">
+      <span class="nav-icon">⚙️</span> Upgrades
+    </button>
+
+    <div class="nav-section-label">COMMUNITY</div>
+    <button class="nav-btn" data-page="leaderboard" onclick="navigate('leaderboard')">
+      <span class="nav-icon">🏆</span> Leaderboard
+    </button>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="sidebar-account">
+      <div id="account-info">
+        <span id="account-name">Guest</span>
+      </div>
+      <button class="btn-sm" id="account-btn" onclick="openAuth()">Sign In</button>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div id="main">
+
+    <!-- Top bar -->
+    <div id="topbar">
+      <div id="topbar-title">Shop</div>
+      <div id="balance-display">$500</div>
+    </div>
+
+    <!-- Pages -->
+
+    <!-- SHOP PAGE -->
+    <div class="page active" id="page-shop">
+      <div class="crate-grid" id="crate-grid"></div>
+
+      <!-- Case opening panel (shown when a crate is selected) -->
+      <div id="open-panel" class="open-panel hidden">
+        <button class="back-btn" onclick="deselectCrate()">← Back to Shop</button>
+        <div class="open-center">
+          <h2 id="open-crate-name">Standard Case</h2>
+          <div id="case-box" onclick="openCase(1)">📦</div>
+          <div class="open-buttons">
+            <button class="btn-open" id="open-btn-1" onclick="openCase(1)">Open ×1 — <span id="cost-1"></span></button>
+            <button class="btn-open btn-open-multi" id="open-btn-3" onclick="openCase(3)">Open ×3 — <span id="cost-3"></span></button>
+            <button class="btn-open btn-open-auto" id="auto-btn" onclick="toggleAuto()">▶ Auto Open</button>
           </div>
-
-          <div class="card">
-            <div class="inv-header">
-              <h2>Inventory <span id="inv-count" class="muted">(0)</span></h2>
-              <button id="sell-all-btn" class="btn-red hidden" onclick="sellAll()">Sell All</button>
-            </div>
-            <div id="inventory-empty" class="empty-msg">No items yet. Open a case!</div>
-            <div id="inventory-grid"></div>
-          </div>
-
+          <div id="last-drop" class="hidden"></div>
+          <div id="multi-drops" class="hidden"></div>
         </div>
-
-        <div class="col-side">
-
-          <div class="card">
-            <h2>Upgrades</h2>
-            <div class="upgrade-box">
-              <div class="upgrade-title" id="upgrade-title">Case Factory Lv.0</div>
-              <div class="upgrade-desc" id="upgrade-desc">Buy to earn passive income every second.</div>
-              <div class="upgrade-cost">Cost: <strong id="upgrade-cost-val">$500</strong></div>
-              <button id="upgrade-btn" onclick="buyUpgrade()">Buy Upgrade</button>
-            </div>
-          </div>
-
-          <div class="card">
-            <h2>Drop Rates</h2>
-            <div id="drop-rates"></div>
-          </div>
-
-          <div class="card">
-            <h2>Stats</h2>
-            <div class="stat-row"><span>Cases opened</span><span id="stat-cases" class="stat-val">0</span></div>
-            <div class="stat-row"><span>Passive income</span><span id="stat-passive" class="stat-green">$0/sec</span></div>
-            <div class="stat-row"><span>Inventory value</span><span id="stat-inv-val" class="stat-yellow">$0</span></div>
-          </div>
-
+        <div class="drop-rates-panel">
+          <h3>Drop Rates</h3>
+          <div id="crate-drop-rates"></div>
         </div>
       </div>
     </div>
 
-    <script src="game.js"></script>
-  </body>
+    <!-- INVENTORY PAGE -->
+    <div class="page" id="page-inventory">
+      <div class="page-header">
+        <h2>Inventory <span class="muted" id="inv-count">(0)</span></h2>
+        <button class="btn-red" id="sell-all-btn" onclick="sellAll()">Sell All</button>
+      </div>
+      <div id="inventory-empty" class="empty-msg">No items yet. Open some cases in the Shop!</div>
+      <div id="inventory-grid"></div>
+    </div>
+
+    <!-- UPGRADES PAGE -->
+    <div class="page" id="page-upgrades">
+      <div class="upgrades-grid" id="upgrades-grid"></div>
+    </div>
+
+    <!-- LEADERBOARD PAGE -->
+    <div class="page" id="page-leaderboard">
+      <div class="page-header"><h2>🏆 Leaderboard</h2></div>
+      <div id="leaderboard-list">
+        <div class="empty-msg">Loading…</div>
+      </div>
+      <p class="lb-note">Sign in to appear on the leaderboard.</p>
+    </div>
+
+  </div>
+</div>
+
+<script src="game.js"></script>
+
+<!-- Firebase (module) — loaded after game.js sets up globals -->
+<script type="module">
+  import { initializeApp }         from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getAnalytics }          from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut }
+                                   from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, collection, query, orderBy, limit, getDocs }
+                                   from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey:            "AIzaSyBmtTFS5tQ73hFV_p9Pep08JBOdMjORUWk",
+    authDomain:        "caseclicker-e3904.firebaseapp.com",
+    projectId:         "caseclicker-e3904",
+    storageBucket:     "caseclicker-e3904.firebasestorage.app",
+    messagingSenderId: "311006660502",
+    appId:             "1:311006660502:web:25214eebb03fd25569ffb7",
+    measurementId:     "G-TQYKQRTEXS"
+  };
+
+  const fbApp  = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(fbApp);
+  const auth   = getAuth(fbApp);
+  const db     = getFirestore(fbApp);
+
+  window._fb = { auth, db, doc, setDoc, getDoc, collection, query, orderBy, limit, getDocs,
+    createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut };
+
+  onAuthStateChanged(auth, async user => {
+    if (user) {
+      window._fbUser = user;
+      document.getElementById('account-name').textContent = user.email.split('@')[0];
+      document.getElementById('account-btn').textContent  = 'Sign Out';
+      document.getElementById('account-btn').onclick      = fbSignOut;
+      await loadCloudSave(user.uid);
+    } else {
+      window._fbUser = null;
+      document.getElementById('account-name').textContent = 'Guest';
+      document.getElementById('account-btn').textContent  = 'Sign In';
+      document.getElementById('account-btn').onclick      = openAuth;
+    }
+  });
+
+  async function loadCloudSave(uid) {
+    try {
+      const snap = await getDoc(doc(db, 'saves', uid));
+      if (snap.exists()) {
+        const d = snap.data();
+        window.loadSaveData(d);
+        showToast('☁️ Progress loaded from cloud', '#3b82f6');
+      }
+    } catch(e) { console.warn('Cloud load failed', e); }
+  }
+
+  window.cloudSave = async function() {
+    if (!window._fbUser) return;
+    try {
+      const { uid } = window._fbUser;
+      const data    = window.getSaveData();
+      await setDoc(doc(db, 'saves', uid), { ...data, email: window._fbUser.email, updatedAt: Date.now() });
+      await setDoc(doc(db, 'leaderboard', uid), {
+        name:    window._fbUser.email.split('@')[0],
+        balance: data.balance,
+        cases:   data.casesOpened,
+        updatedAt: Date.now()
+      });
+    } catch(e) { console.warn('Cloud save failed', e); }
+  };
+
+  window.loadLeaderboard = async function() {
+    const el = document.getElementById('leaderboard-list');
+    try {
+      const q    = query(collection(db, 'leaderboard'), orderBy('balance', 'desc'), limit(20));
+      const snap = await getDocs(q);
+      if (snap.empty) { el.innerHTML = '<div class="empty-msg">No entries yet. Be the first!</div>'; return; }
+      let html = '<div class="lb-table">';
+      let rank = 1;
+      snap.forEach(d => {
+        const row = d.data();
+        const isMe = window._fbUser && d.id === window._fbUser.uid;
+        html += `<div class="lb-row ${isMe ? 'lb-me' : ''}">
+          <span class="lb-rank">${rank <= 3 ? ['🥇','🥈','🥉'][rank-1] : '#'+rank}</span>
+          <span class="lb-name">${row.name}</span>
+          <span class="lb-bal">$${Number(row.balance).toLocaleString()}</span>
+          <span class="lb-cases">${Number(row.cases).toLocaleString()} cases</span>
+        </div>`;
+        rank++;
+      });
+      html += '</div>';
+      el.innerHTML = html;
+    } catch(e) { el.innerHTML = '<div class="empty-msg">Could not load leaderboard.</div>'; }
+  };
+
+  window.authSubmit = async function() {
+    const email = document.getElementById('auth-email').value.trim();
+    const pass  = document.getElementById('auth-pass').value;
+    const errEl = document.getElementById('auth-error');
+    const btn   = document.getElementById('auth-submit-btn');
+    errEl.classList.add('hidden');
+    btn.disabled = true;
+    btn.textContent = 'Please wait…';
+    try {
+      if (window._authMode === 'register') {
+        await createUserWithEmailAndPassword(auth, email, pass);
+      } else {
+        await signInWithEmailAndPassword(auth, email, pass);
+      }
+      closeAuth();
+    } catch(e) {
+      errEl.textContent = e.message.replace('Firebase: ', '').replace(/\(auth\/.*\)\.?/, '').trim();
+      errEl.classList.remove('hidden');
+    }
+    btn.disabled = false;
+    btn.textContent = window._authMode === 'register' ? 'Register' : 'Sign In';
+  };
+
+  window.fbSignOut = async function() {
+    await signOut(auth);
+    showToast('Signed out', '#6b7280');
+  };
+</script>
+
+</body>
 </html>
