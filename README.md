@@ -6,6 +6,10 @@ A remake of the original *CSGO Clicker*
 
 ---
 
+[CaseClicker](https://godslayer82.github.io/caseclicker/)
+
+---
+
 ![GitHub Contributors](https://img.shields.io/github/contributors/Godslayer82/caseclicker?style=for-the-badge)
 ![GitHub Repo stars](https://img.shields.io/github/stars/Godslayer82/caseclicker?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Godslayer82/caseclicker?style=for-the-badge)
